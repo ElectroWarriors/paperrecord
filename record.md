@@ -10,11 +10,11 @@
 ### 二、Deep Trench Capacitor（DTC，Integrated Capacitor，iCap）相关论文
 * iCap大概是做什么的：解决signal and power integrity problem
 
-![1723011809527](assets\1723011809527.png)
+![1723011809527](assets/1723011809527.png)
 
 * DTC-first和TSV-first相关论文：Integrated Deep Trench Capacitor in Si Interposer for CoWoS Heterogeneous Integration
 
-![1723011817085](assets\1723011817085.png)
+![1723011817085](assets/1723011817085.png)
 
 
 
@@ -33,15 +33,15 @@
 * 第一章
   * 1.5 决策论
 
-  ![1723273947839](assets\1723273947839.png)
+  ![1723273947839](assets/1723273947839.png)
 
   * 1.6 信息论
 
-  ![1723274089606](assets\1723274089606.png)
+  ![1723274089606](assets/1723274089606.png)
 
-  ![1723274123684](assets\1723274123684.png)
+  ![1723274123684](assets/1723274123684.png)
 
-  ![1723274147581](assets\1723274147581.png)
+  ![1723274147581](assets/1723274147581.png)
 
   * 
 
@@ -49,7 +49,7 @@
 
   * 2.1 Beta分布
 
-  ![1723274222537](assets\1723274222537.png)
+  ![1723274222537](assets/1723274222537.png)
 
   * 高斯分布，Gamma分布，学生t分布等
   * 周期变量
@@ -59,13 +59,13 @@
 
 Macro Bump, C4 Bump, hybrid bounding, active interposer, I/O die
 
-![1723274542219](assets\1723274542219.png)
+![1723274542219](assets/1723274542219.png)
 
 ### 三、论文
 
 * **Multiobjective Optimization for PSIJ Mitigation and Impedance Improvement Based on PCPS/DR-NSDE in Chiplet-Based 2.5-D Systems**
 
-  ![1723275846980](assets\1723275846980.png)
+  ![1723275846980](assets/1723275846980.png)
 
   * **Abstract**
     * chiplet also introduces significant noise challenges
@@ -92,7 +92,7 @@ Macro Bump, C4 Bump, hybrid bounding, active interposer, I/O die
     * [9] (LMWC-2017)Analytical Unit Cell Assembly for Efficient Chip Package Power Distribution Network Modeling
     * [9] [12] (2012-TPMT)Modeling and Analysis of a Power Distribution Network in TSV-Based 3-D Memory IC Including P/G TSVs, On-Chip Decoupling Capacitors, and Silicon Substrate Effects
 
-    ![1723602093569](assets\1723602093569.png)
+    ![1723602093569](assets/1723602093569.png)
 
   * An automatic assembly process of the equivalent circuits of PDNs, decaps, bump and TSVs is developed based on the S-parameter data concatenation technique introduced in [13].
 
@@ -102,11 +102,11 @@ Macro Bump, C4 Bump, hybrid bounding, active interposer, I/O die
 
     * the “fixed” strategy：the position of the decaps are fixed by the designer but their values are to be foundby the GA
 
-    ![1723601330807](assets\1723601330807.png)
+    ![1723601330807](assets/1723601330807.png)
 
     * the “moving”strategy：both the positions and the values of the decaps are variables to be found by the GA
 
-    ![1723601585534](assets\1723601585534.png)
+    ![1723601585534](assets/1723601585534.png)
 
   * 
 
@@ -116,9 +116,9 @@ Macro Bump, C4 Bump, hybrid bounding, active interposer, I/O die
 
 * build-up layer什么结构，什么功能，和RDL在功能上的区别是什么
 
-![1723440823995](assets\1723440823995.png)
+![1723440823995](assets/1723440823995.png)
 
-![1723441298064](assets\1723441298064.png)
+![1723441298064](assets/1723441298064.png)
 
 * 有芯基板和无芯基板（参考资料：[先进封装基板](file:///C:/Users/HJH/Desktop/研究方向/物理设计优化/record/link/先进封装基板.mhtml)）
 * 有芯基板的刚性芯板层相比于其他层更厚，其通孔直径与其他层之间的差别，导致高频信号在传输过程中存在反射和延迟问题。无芯封装基板厚度仅为传统基板厚度的1/3，厚度降低，不仅使无芯基板更能适应消费类电子产品轻、薄、短、小的趋势，还使它具有更高的信号传输速度、更好的信号完整性、更低的阻抗、更自由的布线设计、以及能够实现更精细的图形和间距等特点。
@@ -139,7 +139,7 @@ Macro Bump, C4 Bump, hybrid bounding, active interposer, I/O die
 
 * [深刻理解电源完整性PI，图文并茂，浅显易懂-CSDN博客](file:///C:/Users/HJH/Desktop/研究方向/物理设计优化/record/link/深刻理解电源完整性PI，图文并茂，浅显易懂.mhtml)
 
-![1723443263617](assets\1723443263617.png)
+![1723443263617](assets/1723443263617.png)
 
 
 * [信号完整性专题【1】——电源完整性（PI）_pdn目标阻抗计算-CSDN博客](file:///C:/Users/HJH/Desktop/研究方向/物理设计优化/record/link/电源完整性（PI）.mhtml)
@@ -182,27 +182,27 @@ Macro Bump, C4 Bump, hybrid bounding, active interposer, I/O die
 
   * **Segmentation Method**
 
-    ![1724205065910](assets\1724205065910.png)
+    ![1724205065910](assets/1724205065910.png)
 
-    ![1724205077210](assets\1724205077210.png)
+    ![1724205077210](assets/1724205077210.png)
 
     Consequently, the impedance matrix of the total structure can be derived by using the impedance matrices of the independent structures and the segmentation method.
 
   * **Model ofChip Level PDN**
 
-    ![1724205527834](assets\1724205527834.png)
+    ![1724205527834](assets/1724205527834.png)
 
     The proposed equations are empirically induced from the capacitance and inductance values of the cell **by simulating the cell** using an EM simulator with valid range constraints.
 
-    ![1724205545072](assets\1724205545072.png)
+    ![1724205545072](assets/1724205545072.png)
 
-    ![1724205564866](assets\1724205564866.png)
+    ![1724205564866](assets/1724205564866.png)
 
-    ![1724205589164](assets\1724205589164.png)
+    ![1724205589164](assets/1724205589164.png)
 
   * **Model ofPackage Level PDN**
 
-    ![1724205645439](assets\1724205645439.png)
+    ![1724205645439](assets/1724205645439.png)
 
     * **Two issues arise when applying the resonant cavity model to the package level PDN:** 
 
@@ -216,7 +216,7 @@ Macro Bump, C4 Bump, hybrid bounding, active interposer, I/O die
 
           * and the other is decided by the AWFF parameter, which is given by
 
-            ![1724206051746](assets\1724206051746.png)
+            ![1724206051746](assets/1724206051746.png)
 
 
 
