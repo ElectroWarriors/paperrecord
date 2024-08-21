@@ -13,17 +13,14 @@
 ![1723011809527](assets\1723011809527.png)
 
 * DTC-first和TSV-first相关论文：Integrated Deep Trench Capacitor in Si Interposer for CoWoS Heterogeneous Integration
-  * 老师回复：我简单读了下，核心我理解下来对我们来说有意义的两部。 Sec. II 里两个first的核心其实TSV和DTC生产互相冲突，从PD的角度来看它们之间有spacing的要求，我们就假设我们一起决定TSV和DTC的位置，要保证它们有个最小spacing。另外Sec. III B里有提DTC要连VDD，这在routing里面会和TSV互相占用资源。有就是我们还需要一个constraint，给DTC的数量/位置弄个下界lower bound。这些有了以后应该就是个蛮完整的problem formulation了。这些具体怎么设我们还是原计划，先去问华大。如果他们不知道，我们就去问国重那边
 
 ![1723011817085](assets\1723011817085.png)
 
 
 
-### 三、接下来要做的
+### TODO List
 
-* chiplet供电问题
-* iCap与TSV之间的关联
-* 优化算法的论文
+* iCap与TSV的论文
 
 
 
@@ -149,30 +146,10 @@ Macro Bump, C4 Bump, hybrid bounding, active interposer, I/O die
 
 
 
-
-
-
-
-### 下周
+### TODO List
 
 * 继续看下PDN，然后把上周没看完的论文看完
 * 软件安装，研究下软件使用
-* 有空继续看PRML
-
-* 接下来几个问题：
-  * Benchmark circuits: Source 1 Chuyu Wang, Source Empyrean
-  * Optimization objective
-    * Impact on PD: routability+ WL (from router)
-    * PND cost: refer to two TCAD formulations. Try to find a simulator. Otherwise write a simple toy one. (the worst case) construct a simple formular using density and distance distance <- directly calculated from our results
-    * TSV cost: (in theory) s-parameter (Fan Yang's group had experience), (in pratical), maybe just wirelength
-
-* 询问孙经理：
-  * 孙经理您好，之后我们组应该主要是我在做这个项目，之后关于软件的一些问题可否向您请教
-  * 是这样，我这边整理了以下几个问题
-    1. 有没有一些简单的电路例子
-    2. Storm中是否有关于TSV的S参数可供读取
-    3. Storm中decoupling capacitor位置和大小是否可调
-    4. 是否有关于Power Delivery Network相关的参数，cap和PDN改变以后，对芯片的影响（比如IR drop和噪音），是否能有个反馈
 
 
 
