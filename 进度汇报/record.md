@@ -1,5 +1,7 @@
 # 研究记录
 
+---
+
 ## ★ 2024.08.07汇报
 ### 一、重分布层（Redistribution Layer，RDL）相关论文
 * 思路基本是global+detail，global做的是assignment（分为free assignment，pre-assignment，unified-assignment）和路由指导（MCMF, ILP, A*搜索等）；detail做的就是具体布线，约束，目标等
@@ -200,7 +202,7 @@ Macro Bump, C4 Bump, hybrid bounding, active interposer, I/O die
 
     ![1724205589164](assets/1724205589164.png)
 
-  * **Model ofPackage Level PDN**
+  * **Model of Package Level PDN**
 
     ![1724205645439](assets/1724205645439.png)
 
@@ -238,7 +240,12 @@ Macro Bump, C4 Bump, hybrid bounding, active interposer, I/O die
 
 
 
+## ★ 2024.xx.xx汇报
 
+### 2024.09.20
+
+- 跑通李昀徽学长的chiplet布局布线工具，不过这个工具没有考虑via，而是会先做一个层分配，然后每条线单层布线，布通率没那么高，需要在这个基础上补充上带有via的布线和icap的位置
+- 后面一段时间需要读懂代码，在这个基础上进行修改。
 
 
 
