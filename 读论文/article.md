@@ -257,8 +257,7 @@ $ w_i $：设计$ D_i $的权重；
 
 # ★ （2020-ICCAD）Coupling Extraction and Optimization for Heterogeneous 2.5D Chiplet-Package Co-Design
 
-| MD Arafat Kabir<br/>University of Arkansas<br/>makabir@uark.edu | Dusan Petranovic<br/>Mentor Graphics<br/>dusan_petranovic@mentor.com | Yarui Peng<br/>University of Arkansas<br/>yrpeng@uark.edu |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | --------------------------------------------------------- |
+
 
 ![image-20240915155411842](./assets/image-20240915155411842.png)
 
@@ -428,19 +427,47 @@ The system is placed on a System-in-Package (SiP) substrate, with **C4 (“flip 
 
 
 
+# ★ TAP-2.5D: A Thermally-Aware Chiplet Placement Methodology for 2.5D Systems
+
+![1727836172779](assets/1727836172779.png)
+
+提出 TAP-2.5D：第一个用于异构 2.5D 系统的开源网络路由和热感知小芯片放置方法。
+
+ TAP-2.5D 战略性地在小芯片之间插入间距，以共同最大限度地降低**温度**和**总线长**，从而提高整个系统的热设计功率范围。
+
+通过SA优化布局
+
+提出了三个案例研究来证明 TAP-2.5D 的用法和功效。
+
+## related work
+
+* 上述两项工作仍仅限于紧凑布局，无法应用于2.5D系统以利用更大解决方案空间的布局灵活性。
+* 这些工作仅限于 16 个小芯片同质 2.5D 系统，其中所有小芯片都是相同的且呈方形，并且它覆盖了具有矩阵式小芯片布局和对称假设的有限解决方案空间。
 
 
 
 
 
+## 不大明白的
+
+![1727835650140](assets/1727835650140.png)
 
 
 
 
 
+# Efficient In-Package Decoupling Capacitor Optimization for I/O Power Integrity
 
+![1727836158139](assets/1727836158139.png)
 
+直接使用噪声作为 SSN 的度量，并开发有效的噪声模型来优化去耦电容器的位置和类型。 
 
+考虑大量端口来寻找去耦电容器的最佳位置。 
 
+我们假设给出了阻抗矩阵，并开发了一种有效的模型来计算插入或移除一个去耦电容器的新阻抗矩阵。 
 
+与最先进的现有工作 [6] 中的 O(n3) 相比，我们算法的时间复杂度为 O(n2)。 
 
+借助阻抗矩阵和预先表征的开关电流波形，我们使用 FFT 计算噪声波形并获得最坏情况下的噪声。
+
+但似乎并未考虑电容的物理位置对端口看到的电容的影响？
