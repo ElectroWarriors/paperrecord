@@ -456,7 +456,7 @@ The system is placed on a System-in-Package (SiP) substrate, with **C4 (“flip 
 
 
 
-# Efficient In-Package Decoupling Capacitor Optimization for I/O Power Integrity
+# ★ Efficient In-Package Decoupling Capacitor Optimization for I/O Power Integrity
 
 ![1727836158139](assets/1727836158139.png)
 
@@ -471,3 +471,121 @@ The system is placed on a System-in-Package (SiP) substrate, with **C4 (“flip 
 借助阻抗矩阵和预先表征的开关电流波形，我们使用 FFT 计算噪声波形并获得最坏情况下的噪声。
 
 但似乎并未考虑电容的物理位置对端口看到的电容的影响？
+
+
+
+# Placement
+
+## Introduction
+
+放置质量与电路的PPA之间存在很强的相关性【2】
+
+现代电路包含数百万个标准单元，这大大增加了放置问题的计算复杂性【2】
+
+placers focus on optimizing total wirelength.【1】
+
+布局解决方案还提供对布线长度和拥塞的相对准确的估计，这对于指导逻辑综合等早期阶段非常有价值。【3】
+
+由于布局涉及大规模数值优化，当今的布局器通常需要数小时才能完成大型设计，从而减慢了设计迭代速度【3】
+
+Analytical placement是当前 VLSI 布局的最先进技术 [1]–[15]。 它本质上解决的是非线性优化问题。 尽管分析放置可以产生高质量的解决方案，但它的速度也相对较慢 [11]、[13]、[14]、[16]。【3】
+
+* Analytical placement通常包括三个步骤：1）GP；  2）LG；  3）detailed placement（DP）
+  * GP 在布局中分散单元，目标成本最小化；  LG 去除单元之间剩余的重叠部分，并将单元与放置位置对齐；  DP进行增量细化，进一步提高质量。 通常，GP 是分析安置中最耗时的部分。
+
+​	
+
+Analytical placement可以大致分为quadratic placement和nonlinear placement。quadratic placement通过在不受约束的线长最小化步骤和粗略合法化（LG）或扩展步骤之间迭代来解决这个问题[10]-[15]。 线长最小化步骤通常采用二次线长模型，并且无论单元之间的重叠如何，都最小化总线长。 粗略的 LG 步骤基于启发式方法消除了重叠，而没有明确考虑线长成本。 通过在这两个步骤之间进行迭代，细胞可以逐渐展开。 同时，线长成本被最小化。 nonlinear placement直接用非线性优化技术解决放置问题[1]-[9]，[17]。 它用受密度约束的线长目标来制定非线性优化问题。 通过将密度约束放松到目标中，可以采用基于梯度下降的技术来搜索高质量的解决方案。
+
+* accelerate placement：多线程，GPU
+  * multithreaded CPUs：饱和在GP加速约 5 倍，典型质量下降为 2%–6%。
+  * 通过并行化非线性放置部分，GP 平均加速 15 倍，质量下降不到 1%。
+
+* HPWL
+  * Most placers use a fast approximation—**half-perimeter wirelength (HPWL) [1, 2, 3, 4, 5]** or its variants, such as the **Bound2Bound net model [6, 7]** and the **linearized quadratic wirelength [8]**.【1】
+  * 然而，对于引脚数超过 3 的网络，HPWL 模型会扭曲路由中基于 RSMT 的拓扑结构 [9]，因此，HPWL和布线拓扑之间的这种不一致会导致优化意图的不匹配。【1】
+  * 一些算法通过为高扇出网络分配更高的网络权重来解决它们[10]。 然而，增加的重量只会引起人们对边界框的关注，而内部纵横交错并未受到影响。【1】
+
+* GP，LG
+  * Analytical algorithms通常将约束放松到优化函数中作为惩罚项，对于它们来说，在不违反约束的情况下给出完全的解决方案是具有挑战性的。 因此，解析式方法通常是为**全局布局（GP）**而设计的，以便为每个可移动单元提供粗略位置。 这些约束由随后的**合法化 (LG)** 阶段处理，其中单元格被移动到合法站点而不重叠。【1】
+  * GP和LG阶段之间的突然转变也可能破坏路由拓扑优化的初衷。 因此，**GP后的缓冲阶段**将有助于平稳过渡[4]。 此外，Post-GP <u>可以针对一些隐式指标（例如可路由性）细化 GP 解决方案[11]</u>。 同样，我们也可以借助Post-GP来保持和改善布线线长。【1】
+
+* 可布线性驱动
+  * 以前的可布线性驱动的布局器缺乏处理详细的可布线性优化，或者调用耗时的基于CPU的全局路由器来进行可布线性优化。【2】
+
+
+
+
+
+## Reference
+
+【1】An Analytical Placement Algorithm with Routing topology Optimization
+
+【2】Xplace: An Extremely Fast and Extensible Placement Framework
+
+
+
+# ★ An Analytical Placement Algorithm with Routing topology Optimization
+
+```
+WA+stWL， 四叉树
+```
+
+* 提出了一种<u>路由拓扑感知线长的解析模型</u>，以在 GP 阶段实现密集的拓扑。
+
+  * 提出了一种独特的 RSMT 分割方法，从内部路由拓扑中提取可优化的结构
+
+    ![1728219994464](assets/1728219994464.png)
+
+  * 提出了一种新颖的线长模型，可以直接细化特定网络内的拓扑，并在 GP 阶段有效优化路由线长。
+
+  * 提出一种基于锚的单元细化框架，有效处理密度约束。 我们还为这个框架设计了一个通用的目标表述，保证有效性和收敛性。
+
+* 受Chang等人提出的多级放置[12]的启发，我们<u>在Post-GP阶段</u>引入了单元细化算法。 
+  
+  * 通过RSMT 拓扑开发了启发式锚点生成策略，以进一步优化Post-GP 阶段的内部路由拓扑。
+
+
+
+# ★ Xplace: An Extremely Fast and Extensible Placement Framework
+```
+WA运算加速
+梯度算子学习，通过电荷分布计算电场分布（梯度，用于更新cell的位置）
+GPU加速可布线性驱动等内容没看懂了
+```
+
+1) 通过算子组合、算子提取、算子缩减和算子跳过，与最先进的全局布局器 DREAMPlace 相比，Xplace 在每次 GP 迭代中实现了约 3 倍的加速。还提出了置换阶段感知参数调度技术来改进解决方案 质量。 实验结果表明，与 DREAMPlace 相比，Xplace 实现了约 2 倍的加速，并且解决方案质量更好。  
+
+2）我们将一个新颖的傅立叶神经网络作为扩展插入到 Xplace 中。 神经网络作为放置的全局指导。 实验结果不仅说明了在分析全局布局中采用神经指导的可能性，而且还证明了 Xplace 在与神经网络集成方面的可扩展性。  
+
+3）我们将Xplace扩展为一个快速的、详细的可布线性驱动的布局器，命名为Xplace-Route。  Xplace-Route配备了详细的可布线性感知技术和GPU加速的布线引擎，有效地提高了详细的可布线性并减少了违规次数。  ISPD 2015 竞赛基准的实验结果表明，Xplace-Route 实现了显着的质量改进和运行加速。
+
+```
+As a result, there is no necessity to collect actual ground-truth
+training data from real placement benchmarks. Instead, we can
+generate randomly distributed density maps and compute the
+numerical solution of the corresponding electric fields, which
+will be used as labels for training.
+·既然这样不直接算？追求速度吗
+```
+
+
+
+
+
+# ★ DREAMPlace: Deep Learning Toolkit-Enabled GPU Acceleration for Modern VLSI Placement
+
+```
+WA+ED+GPU加速
+```
+
+
+
+1）我们以全新的视角将布局与深度学习进行类比，构建了一个开源的通用分析布局框架，该框架可以在使用现代深度学习工具包开发的CPU和GPU平台上运行。  
+
+2）在深度学习工具包的帮助下，提供了多种梯度下降求解器，例如Nesterov法、共轭梯度法和Adam[25]。  
+
+3) 我们提出了分析布局中关键内核的高效 GPU 实现，例如线长和密度计算。  
+
+4) 我们证明，与多线程 RePlAce 实现相比，GP 的加速速度提高了约 40 倍，且整个布局流程的质量没有下降。 更具体地说，即使是 LG，也能在一分钟内完成包含 100 万个电池的设计。 该框架在工业设计中保持了近乎线性的可扩展性，最多可容纳 1000 万个单元。
+

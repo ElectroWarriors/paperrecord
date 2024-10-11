@@ -1,8 +1,4 @@
-# 研究记录
-
----
-
-## ★ 2024.08.07汇报
+# ★ 2024.08.07汇报
 ### 一、重分布层（Redistribution Layer，RDL）相关论文
 * 思路基本是global+detail，global做的是assignment（分为free assignment，pre-assignment，unified-assignment）和路由指导（MCMF, ILP, A*搜索等）；detail做的就是具体布线，约束，目标等
 * 创新点早期有单层到多层，固定角度（45，135）到任意角度，不同array下的布线（square grid array，staggered array，A hexagonal array）
@@ -15,20 +11,23 @@
 ![1723011809527](assets/1723011809527.png)
 
 * DTC-first和TSV-first相关论文：Integrated Deep Trench Capacitor in Si Interposer for CoWoS Heterogeneous Integration
+  * 老师回复：我简单读了下，核心我理解下来对我们来说有意义的两部。 Sec. II 里两个first的核心其实TSV和DTC生产互相冲突，从PD的角度来看它们之间有spacing的要求，我们就假设我们一起决定TSV和DTC的位置，要保证它们有个最小spacing。另外Sec. III B里有提DTC要连VDD，这在routing里面会和TSV互相占用资源。有就是我们还需要一个constraint，给DTC的数量/位置弄个下界lower bound。这些有了以后应该就是个蛮完整的problem formulation了。这些具体怎么设我们还是原计划，先去问华大。如果他们不知道，我们就去问国重那边
 
 ![1723011817085](assets/1723011817085.png)
 
 
 
-### TODO List
+### 三、接下来要做的
 
-* iCap与TSV的论文
+* chiplet供电问题
+* iCap与TSV之间的关联
+* 优化算法的论文
 
 
 
 ---
 
-## ★ 2024.08.14汇报
+# ★ 2024.08.14汇报
 
 ### 一、学习PRML
 
@@ -148,16 +147,36 @@ Macro Bump, C4 Bump, hybrid bounding, active interposer, I/O die
 
 
 
-### TODO List
+
+
+
+
+### 下周
 
 * 继续看下PDN，然后把上周没看完的论文看完
 * 软件安装，研究下软件使用
+* 有空继续看PRML
+
+* 接下来几个问题：
+  * Benchmark circuits: Source 1 Chuyu Wang, Source Empyrean
+  * Optimization objective
+    * Impact on PD: routability+ WL (from router)
+    * PND cost: refer to two TCAD formulations. Try to find a simulator. Otherwise write a simple toy one. (the worst case) construct a simple formular using density and distance distance <- directly calculated from our results
+    * TSV cost: (in theory) s-parameter (Fan Yang's group had experience), (in pratical), maybe just wirelength
+
+* 询问孙经理：
+  * 孙经理您好，之后我们组应该主要是我在做这个项目，之后关于软件的一些问题可否向您请教
+  * 是这样，我这边整理了以下几个问题
+    1. 有没有一些简单的电路例子
+    2. Storm中是否有关于TSV的S参数可供读取
+    3. Storm中decoupling capacitor位置和大小是否可调
+    4. 是否有关于Power Delivery Network相关的参数，cap和PDN改变以后，对芯片的影响（比如IR drop和噪音），是否能有个反馈
 
 
 
 ---
 
-## ★ 2024.08.21汇报
+# ★ 2024.08.21汇报
 
 ### 论文
 
@@ -202,7 +221,7 @@ Macro Bump, C4 Bump, hybrid bounding, active interposer, I/O die
 
     ![1724205589164](assets/1724205589164.png)
 
-  * **Model of Package Level PDN**
+  * **Model ofPackage Level PDN**
 
     ![1724205645439](assets/1724205645439.png)
 
@@ -230,25 +249,151 @@ Macro Bump, C4 Bump, hybrid bounding, active interposer, I/O die
   * 找严老师聊一下
   * 有什么需求可以提
 
+![白板文件_2024821104358](assets/白板文件_2024821104358.jpg)
+
+![白板文件_2024821105148](assets/白板文件_2024821105148.jpg)
+
 
 
 ### TODO List
 
 * 整理一下，准备Presentation
 * 找严老师聊一下
-* 软件安装的事情
+  * 软件安装：未问 -> 已问，等回复
+  * Our Work：未汇报
 
 
 
-## ★ 2024.xx.xx汇报
+# ★ 2024.08.xx汇报
+
+* **kjw项目：TSV布局优化**
+  * 初始布局 --> |storm| <--> 优化 --(满足退出条件)--> 得到优化结果
+* **国自然：多光罩**
+  * **基于参数优化的 DTCO 方法**
+    * TSV、深槽电容密度、位置和互连线层数，对物理设计与芯片系统总体PPA的影响
+    * 工艺参数本身还决定了生产成本和良率，是芯片产业的核心经济指标
+    * 无导数非凸问题的优化方法
+  * **基于芯粒划分与解析式优化的布局方法**
+    * 多光罩集成芯片相比较单光罩，需要考虑光罩拼接区域的信号完整性损失。在布局中，如果相连接的芯片被放于不同光罩区域，互连线不可避免会跨越光罩拼接区域，造成此信号有较大损失，影响芯片总体性能。
+    * 尽可能减少互连线跨越多光罩区域，这可以转化为一个布局前的芯粒划分问题
+    * 拟通过高效的解析式（analytical）布局方法，考虑芯粒与键合位的连接关系，构
+      造快速的布局方法。
+  * **针对延迟匹配和时序优化的布线方法**
+    * 通过将芯片网表的时序信息提取成网络流，然后用网络流算法进行焊点分配，从而提升集成芯片时序性能。
+  * **多光罩集成芯片的布局布线工具原型开发**
+    * 构建 DTCO、布局、布线的数据底座，开发算法模块与图形显示界面，突破多光罩集成芯片敏捷协同优化与布局布线的难题，开发面向多光罩集成芯片的布局布线 EDA 工具原型并开源，为集成芯片研究打下基础。
+
+
+
+# ★ 2024.09.25汇报
 
 ### 2024.09.20
 
-- 跑通李昀徽学长的`chiplet`布局布线工具
+* 跑通李昀徽学长的`chiplet`布局布线工具
   - 存在多个`c++`版本，可能造成某些未知混乱，并且无法运行debug模式。
   - 通过`devtoolset-11`进行统一，并注释掉会影响环境的部分，跑通。
-- 不过这个工具没有考虑`via`，而是会先做一个层分配，然后每条线单层布线，布通率没那么高，需要在这个基础上补充上带有`via`的布线和`icap`的位置
-- 后面一段时间需要读懂代码，在这个基础上进行修改。
+* 不过这个工具没有考虑`via`，而是会先做一个层分配，然后每条线单层布线，布通率没那么高，需要在这个基础上补充上带有`via`的布线和`icap`的位置
+* 后面一段时间需要读懂代码，在这个基础上进行修改。
+
+
+
+# ★ 2024.10.02汇报
+
+## 总结
+
+周四周五跟毕老师那边跑材料，周六在路上简单看了两篇论文（按毕老师建议重新看之前看过的的论文），周末周一给曾老师抓着上线写材料，顺便把placement工具编译了一下
+
+# ★ 2024.10.09汇报
+
+## 总结
+
+2号到5号，大概把朱老师的placement跑通了一下，然后6号7号集群跳板机用不了就去看了下placement的一些论文，感觉placement没什么可以做的，看论文都在往GPU加速上卷。8号集群可以正常用了就研究一下storm的router。
+
+8号去邯郸校区帮毕老师跑材料，毕老师找着聊了一下，建议可以在TSV产生的一些影响这方面再调研一下。
+
+# ★ 2024.10.16汇报
+
+## 2024.10.09
+
+### 研究storm
+
+* 问题
+  * C4 pad，ASIC Pad为什么这么画，各层表示什么
+
+    ![1728457481807](assets/1728457481807.png)
+
+    ![1728457553818](assets/1728457553818.png)
+
+  * 这些框只表示boundary，不表示实际层吗，这些文字是否也是这个意思
+
+    ![1728457930973](assets/1728457930973.png)
+
+    ![1728457985396](assets/1728457985396.png)
+
+  * layer.map中这几个变量是什么
+  
+    ![1728471424653](assets/1728471424653.png)
+  
+  * 
+
+查找C4 bump的结构
+
+* 论文：
+
+  ```
+  ·Walking pads: Managing C4 placement for transient voltage noise minimization（2014-DAC）
+  ·Architecture implications of pads as a scarce resource（2014-ISCA）
+  ·Tolerating the Consequences of Multiple EM-Induced C4 Bump Failures（2015-TVLSI）
+  ·MTTF Enhancement Power-C4 Bump Placement Optimization（2019-VLSI）
+  # ------------------------------------------------------ #
+  ·Comparison of the electromigration behaviors between micro-bumps and C4 solder bumps（2011-ECTC）
+  ```
+
+* 看一下test cases中的这些文件
+
+  ![1728458371500](assets/1728458371500.png)
+
+### PDN
+
+意外发现一篇论文（[Architecture implications of pads as a scarce resource | ACM SIGARCH Computer Architecture News](https://dl.acm.org/doi/10.1145/2678373.2665728)），引用了一个工具，似乎可以解PDN，可以找个机会看一下
+
+* 工具：[VoltSpot: a pre-RTL power delivery network (PDN) model for architecture-level PDN noise and reliability evaluation](https://github.com/uvahotspot/VoltSpot)
+
+  ```
+  If you use this software or a modified version of it, we would appreciate it if
+  you would cite one of the following papers:
+  
+  1) R. Zhang, K. Wang, B. H. Meyer, M. R. Stan and K. Skadron 
+     "Architecture Implications of Pads as a Scarce Resource" In Proceedings of
+     the 41th International Symposium on Computer Architecture (ISCA), June 2014
+  
+  2) R. Zhang, K. Mazumdar, B. Meyer, K. Wang, K. Skadron, and M. R. Stan, 
+     "A Cross-Layer Design Exploration of Charge-Recycled Power-Delivery in Many-Layer 3D-IC",
+     In Proceedings of the Design Automation Conference (DAC), June, 2015
+  
+  3) R. Zhang, K. Mazumdar, B. Meyer, K. Wang, K. Skadron, and M. R. Stan, 
+     "Transient Voltage Noise in Charge-Recycled Power Delivery Networks for Many-Layer 3D-IC",
+     In Proceedings of the International Symposium on Low Power Electronics and Design (ISLPED),
+     July, 2015
+  ```
+
+  
+
+## 2024.10.10
+
+* 上午在张江校区上课，课上研究了下storm placer的使用，了解了所需文件构成
+* 下午去邯郸校区上课
+* 晚上开始将placer配置在集群上 
+
+## 2024.10.11
+
+* 完成了placer在集群上的配置
+
+![1728653803499](assets/1728653803499.png)
+
+* 计划明天仿照storm placer的输入文件做一个自己的简单case验证一下，然后通过python自动化生成这些文件，再往后看一下要怎么通过python实现自动化文件输入和布线，形成一个简单的流程
+
+
 
 
 
