@@ -395,7 +395,10 @@ Macro Bump, C4 Bump, hybrid bounding, active interposer, I/O die
 
 
 
+## 2024.10.12
 
+* 实现python自动化生成storm所需文件
+* 集群的跳板机又用不了了......还没对该简单的case进行验证
 
 
 
